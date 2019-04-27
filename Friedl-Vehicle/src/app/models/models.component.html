@@ -1,3 +1,6 @@
+<body>
+<button (click)='prevPage()'>Prev</button>
+<button (click)='nextPage()'>Next</button>
 <h1>Our Vehicles</h1>
 Year:  
 <select [(ngModel)]='yearFilter'>
@@ -24,4 +27,6 @@ Make:
     <td>{{ v.hasDetails }}</td>
   </tr>
 </table>
+
+</body>
 

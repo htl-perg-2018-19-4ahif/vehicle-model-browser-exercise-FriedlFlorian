@@ -31,6 +31,8 @@ export class ModelsComponent implements OnInit {
   yearFilter: number;
   makeFilter = '';
 
+  offsetPage = 0;
+
   constructor(private http: HttpClient) {
 
   }
@@ -51,10 +53,7 @@ export class ModelsComponent implements OnInit {
 
   async loadYears() {
     this.years = await this.http.get<IYear[]>('https://vehicle-data.azurewebsites.net/api/years').toPromise();
-
-    console.log(this.years);
   }
-
 
   async filter() {
     console.log('year:' + this.yearFilter);
@@ -75,6 +74,20 @@ export class ModelsComponent implements OnInit {
       // tslint:disable-next-line:max-line-length
       this.vehicles = await this.http.get<IVehicle[]>('https://vehicle-data.azurewebsites.net/api/models?make=' + this.makeFilter + '&year=' + this.yearFilter).toPromise();
     }
+  }
+
+  async nextPage() {
+    this.offsetPage = this.offsetPage + 10;
+    // tslint:disable-next-line:max-line-length
+    this.vehicles = await this.http.get<IVehicle[]>('https://vehicle-data.azurewebsites.net/api/models?offset=' + this.offsetPage).toPromise();
+  }
+
+  async prevPage() {
+    if (this.offsetPage > 9) {
+      this.offsetPage = this.offsetPage - 10;
+    }
+    // tslint:disable-next-line:max-line-length
+    this.vehicles = await this.http.get<IVehicle[]>('https://vehicle-data.azurewebsites.net/api/models?offset=' + this.offsetPage).toPromise();
   }
 
 }
